@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Guess Game
+	</title>
+</head>
+<body>
+<p>I am thinking a number from 1 to 10.
+<br>You must guess what it is in three tries.</br>
+Enter a guess
+<input type="text" id="iGuess" name="iGuess" >
+<button onclick="validate()">Guess it</button></p>
+
+<p id="strResult"></p>
+
+<script>
+var iTryNumber=0;
+var iRandom = Math.floor(Math.random() * 10) + 1;
+
+function validate(){
+	var iGuess=document.getElementById("iGuess").value;
+	if(Number.isInteger(parseInt(iGuess)) && iGuess>0 && iGuess<=10){
+		showContent(iGuess);
+	}
+	else{
+		alert("Please enter a number between 1 and 10");
+		window.location.reload();
+	}
+}
+
+function showContent(iGuess) {
+	iTryNumber=iTryNumber+1;
+	var iDifference=0;
+	var strResult;
+	if(iTryNumber==1){
+		strResult="Your first guess is:"+iGuess;
+	}else if(iTryNumber==2){
+		strResult="Your second guess is:"+iGuess;
+	}else if(iTryNumber==3){
+		strResult="Your last guess is:"+iGuess;	
+	}else if(iTryNumber>3){
+		alert("You have exhausted all of your attempts");
+		window.location.reload();
+	}
+	if(iGuess!=iRandom){
+		iDifference=Math.abs(iGuess-iRandom);
+	}
+	if(iRandom!=iGuess){
+		if(iDifference>=3){
+			strResult=strResult+"(cold)";
+		}else if(iDifference==2){
+			strResult=strResult+"(warm)";
+		}else if(iDifference==1){
+			strResult=strResult+"(hot)";
+		}
+		if(iTryNumber==3){
+			strResult=strResult+"<br>You have lost the game</br>";
+			//Page will be reloaded after 5 seconds
+			setTimeout(function(){
+				window.location.reload();
+			},5000);
+		}
+		document.getElementById("strResult").innerHTML=strResult;
+	}else{
+		document.getElementById("strResult").innerHTML=strResult+"<br>Right! You have won the game</br>";
+		setTimeout(function(){
+			window.location.reload();
+		},5000);
+	}
+}
+</script>
+
+</body>
+</html>
+
